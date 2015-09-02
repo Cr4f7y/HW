@@ -13,9 +13,9 @@ def bubble_sort(array)
         end
 
       end
-      break if not swapped
+      break unless swapped
   end
 end
-a=[2,3,1,4,5,0,0]
+a=[2,3,1,4,5,0,0,1]
 bubble_sort(a)
 print (a)
