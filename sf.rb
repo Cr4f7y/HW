@@ -6,12 +6,13 @@ class Cell
 end
 
 class Field < Cell
-  def fill_empty() #fill an array with 'O'
+
+  def initialize ()
     @array= Array.new(10) { |i| Array.new(10) { |i| 'O' }}
   end
 
   def fill_ships() #fill an array with 3-blocked ships "XXX" placed randomly
-    for ship_size in 1..2
+    for ship_size in 1..4
     flag = 0
     try = 0
     x=rand(10-ship_size)
@@ -24,7 +25,7 @@ class Field < Cell
                         puts "X=" + x.to_s
                         puts "Y=" + y.to_s
                         puts "ship_size=" + ship_size.to_s
-                        if @array[x][y+count]!="X" and @array[x][y+count]!= '1'
+                        if @array[x][y+count]!='X' and @array[x][y+count]!= '1'
                            success = true
 
                         end
@@ -33,24 +34,28 @@ class Field < Cell
 
                           x=rand(10-ship_size)
                           y=rand(10-ship_size)
-                          try+=try
+                          try=try+1
+                          break
+
                         end
+
               end
-              return "Error" if try>100
+              return puts "Error" if try > 1000
+
             end
 
               for draw in 0..ship_size-1
-                @array[x][y+draw]="X"
+                @array[x][y+draw]='X'
               end
 
             for i in x-1..x+1   #creating a mask of "1" around a ship which is placed
               for j in y-1..y+ship_size
-                if @array[i][j]!="X" and i>=0 and j>=0
+                if @array[i][j]!='X' and i>=0 and j>=0
                   @array[i][j] = '1'
                 end
               end
             end
-            if @array[x][y]=="X"
+            if @array[x][y]=='X'
             flag=flag+1
             end
             break if flag==5-ship_size #when 2 ships are placed break.
@@ -58,6 +63,7 @@ class Field < Cell
           end
         end
   end
+
   def print_array()
     print "  \n"
     for i in 0..9 #formatted output of the array.
@@ -73,9 +79,12 @@ class Field < Cell
 end
 
   f1=Field.new #creating an object of a class Field
-  f1.fill_empty #fill an array with 'O'
+  f2=Field.new #fill an array with 'O'
   f1.fill_ships #adding ships to the array
   f1.print_array
+  f2.print_array
+
+
 
 
 
