@@ -5,9 +5,9 @@ class Cell
   end
 end
 
-class Field
+class Field < Cell
   def fill_empty() #fill an array with 'O'
-    @array= Array.new(14) { |cell=Cell.new| Array.new(14) { |cell| 'O' }}
+    @array= Array.new(10) { |i| Array.new(10) { |i| 'O' }}
   end
 
   def fill_ships(empty) #fill an array with 3-blocked ships "XXX" placed randomly
@@ -21,11 +21,13 @@ class Field
             while success != true #trying to place 1 ship
               for count in 0..ship_size-1
                         success = false
-                        if empty[x][y+count]!="X" and empty[x][y+count]!= 1
+                        if empty[x][y+count]!="X" and empty[x][y+count]!= '1'
                            success = true
+
                         end
 
                         if success == false
+
                           x=rand(10-ship_size)
                           y=rand(10-ship_size)
                           try+=try
@@ -56,9 +58,9 @@ class Field
 end
 
   f1=Field.new #creating an object of a class Field
-
   array=f1.fill_empty #fill an array with 'O'
   f1.fill_ships(array) #adding ships to the array
+  p array.size
   print array
   for i in 0..9 #formatted output of the array.
     for j in 0..9
