@@ -43,7 +43,7 @@ class Field < Cell
             for i in x-1..x+1   #creating a mask of "1" around a ship which is placed
               for j in y-1..y+ship_size
                 if empty[i][j]!="X" and i>=0 and j>=0
-                  empty[i][j] = 1
+                  empty[i][j] = '1'
                 end
               end
             end
