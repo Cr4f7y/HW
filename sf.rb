@@ -1,41 +1,65 @@
-class Field
+class Cell
+  attr_accessor :status
+  def initialize()
+    @status = status
+  end
+end
 
+class Field
   def fill_empty() #fill an array with 'O'
-    @array=Array.new(10) { |i| Array.new(10) { |i| 'O' }}
+    @array= Array.new(14) { |cell=Cell.new| Array.new(14) { |cell| 'O' }}
   end
 
   def fill_ships(empty) #fill an array with 3-blocked ships "XXX" placed randomly
+    for ship_size in 1..2
     flag = 0
-     loop do
-      if empty[x=rand(9)][y=rand(9)]!="X" and #check if the current element[x][y(+1)(+2)]is not X or 1.
-                         empty[x][y]!=1   and
-                         empty[x][y+1]!=1 and
-                        (empty[x][y+2]!=1 and empty[x][y+2]!=nil)# Last one checked if! nil.
+    try = 0
+    x=rand(10-ship_size)
+    y=rand(10-ship_size)
+        loop do
+            success = false
+            while success != true #trying to place 1 ship
+              for count in 0..ship_size-1
+                        success = false
+                        if empty[x][y+count]!="X" and empty[x][y+count]!= 1
+                           success = true
+                        end
 
-        empty[x][y] = "X"
-        empty[x][y+1] = "X"
-        empty[x][y+2] = "X"
-        for i in x-1..x+1   #creating a mask of "1" around a ship which is placed
-          for j in y-1..y+3
-            if empty[i][j]!="X" and i>=0 and j>=0 and y<=9
-              empty[i][j] = 1
+                        if success == false
+                          x=rand(10-ship_size)
+                          y=rand(10-ship_size)
+                          try+=try
+                        end
+              end
+              return "Error" if try>100
             end
+
+              for draw in 0..ship_size-1
+                empty[x][y+draw]="X"
+              end
+
+            for i in x-1..x+1   #creating a mask of "1" around a ship which is placed
+              for j in y-1..y+ship_size
+                if empty[i][j]!="X" and i>=0 and j>=0
+                  empty[i][j] = 1
+                end
+              end
+            end
+            if empty[x][y]=="X"
+            flag=flag+1
+            end
+            break if flag==5-ship_size #when 2 ships are placed break.
+
           end
         end
-        flag=flag+1
       end
-
-      break if flag==2 #when 2 ships are placed break.
-
-    end
-  end
-
 end
 
   f1=Field.new #creating an object of a class Field
+
   array=f1.fill_empty #fill an array with 'O'
   f1.fill_ships(array) #adding ships to the array
-              
+  print array
   for i in 0..9 #formatted output of the array.
     for j in 0..9
       if j==9
@@ -46,14 +70,3 @@ end
     end
   end
 
-# Example an output
-# O  O  O  O  O  O  O  O  O  O
-# O  O  O  O  O  O  O  O  O  O
-# O  O  O  O  O  O  O  O  O  O
-# O  O  O  O  O  O  O  O  O  O
-# O  O  O  O  O  O  O  O  O  O
-# O  O  O  O  1  1  1  1  1  O
-# 1  1  1  1  1  X  X  X  1  O
-# X  X  X  1  1  1  1  1  1  O
-# 1  1  1  1  O  O  O  O  O  O
-# O  O  O  O  O  O  O  O  O  O
